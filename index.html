@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editable Table with ReactJS</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // Customize your categories here
+      const rowHeaders = [
+        "Onboarding Call",
+        "Google Search Console Access",
+        "Google Analytics Access",
+        "Website Access",
+        "Technical Audit",
+        "Anchor Text and Semantic Analysis",
+        "Competitor Analysis",
+        "Anchor Text/URL Mapping",
+        "Google Data Studio Report + Local Reporting Suite",
+        "Site Level Optimization",
+        "On page Optimizing",
+        "Content Creation",
+        "Content Publishing",
+        "Premium Press Release",
+        "Authority Niche Placements",
+        "Review Management",
+        "Index Links",
+        "Video Recap",
+      ];
+
+      function EditableTable() {
+        const [data, setData] = React.useState(
+          rowHeaders.map((rowHeader) => ({
+            name: rowHeader,
+            rowHeaders: Array.from({ length: 6 }, () => Array(1).fill("")),
+          }))
+        );
+
+        // Handle change in input fields
+        const handleInputChange = (e, rowIndex, monthIndex, fieldIndex) => {
+          const newData = [...data];
+          newData[rowIndex].rowHeaders[monthIndex][fieldIndex] = e.target.value;
+          setData(newData);
+        };
+
+        // Function to log data (this simulates the API call)
+        const handleSubmit = () => {
+          console.log("Data ready to send to API:", data);
+        };
+
+        return (
+          <div>
+            <table
+              border="1"
+              cellPadding="9"
+              style={{ width: "100%", borderCollapse: "collapse" }}
+            >
+              <thead style={{ backgroundColor: "#f0f0f0" }}>
+                <tr>
+                  <th>Month 1</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    <td style={{ backgroundColor: "#f0f0f0" }}>{row.name}</td>
+                    {row.rowHeaders.map((monthData, monthIndex) => (
+                      <td key={monthIndex}>
+                        {monthData.map((value, fieldIndex) => (
+                          <input
+                            key={fieldIndex}
+                            type="text"
+                            value={value}
+                            onChange={(e) =>
+                              handleInputChange(
+                                e,
+                                rowIndex,
+                                monthIndex,
+                                fieldIndex
+                              )
+                            }
+                            style={{ width: "90%", margin: "0px 0" }}
+                          />
+                        ))}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={handleSubmit} style={{ marginTop: "20px" }}>
+              Submit Data
+            </button>
+          </div>
+        );
+      }
+
+      // Rendering the EditableTable component to the DOM
+      ReactDOM.render(<EditableTable />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
+
+
+
